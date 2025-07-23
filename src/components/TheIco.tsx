@@ -28,7 +28,7 @@ export default function TheIco() {
       sceneRef.current.appendChild(renderer.domElement);
 
       //Orbit controls
-      const controls = new OrbitControls(camera, renderer.domElement);
+      const controls = new1 OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.03;
 
