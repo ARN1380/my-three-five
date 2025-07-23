@@ -90,9 +90,10 @@ export default function ThreeScene() {
       window.addEventListener("resize", handleResize);
 
       // Cleanup on component unmount
+      const sceneRefCleaner = sceneRef.current;
       return () => {
         renderer.dispose();
-        sceneRef.current?.removeChild(renderer.domElement);
+        sceneRefCleaner.removeChild(renderer.domElement);
         window.removeEventListener("resize", handleResize);
       };
     }
