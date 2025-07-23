@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div>
       <TheEarth />
-      {/* <TheIco /> */}
+      <TheIco />
     </div>
   );
 }
