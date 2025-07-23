@@ -29,7 +29,6 @@ export default function TheEarth() {
 
       //04_creating the object and adding it to the scene
       const earthGroup = new THREE.Group();
-      earthGroup.rotation.z = -0.4;
 
       const icoGeo = new THREE.IcosahedronGeometry(1, 12);
       const loader = new THREE.TextureLoader();
@@ -39,6 +38,15 @@ export default function TheEarth() {
       const earthMesh = new THREE.Mesh(icoGeo, icoMat);
       earthGroup.add(earthMesh);
       scene.add(earthGroup);
+
+      const earthLightsMat = new THREE.MeshBasicMaterial({
+        map: loader.load(earthLights.src),
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        opacity: 0.25
+      });
+      const earthLightsMesh = new THREE.Mesh(icoGeo, earthLightsMat);
+      earthGroup.add(earthLightsMesh);
 
       //05_rendering (for rendering a frame)
       // renderer.render(scene, camera);
@@ -60,7 +68,8 @@ export default function TheEarth() {
       const animate = () => {
         requestAnimationFrame(animate);
 
-        earthMesh.rotation.y += 0.001;
+        earthGroup.rotation.y += 0.001;
+        earthGroup.rotation.x += 0.0004;
 
         renderer.render(scene, camera);
         controls.update();
