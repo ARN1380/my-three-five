@@ -2,6 +2,13 @@ import * as THREE from "three";
 import { useEffect, useRef } from "react";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
 
+import earthDiffuse from "../../public/assets/textures/Earth/00_earthmap1k.jpg";
+import earthBump from "../../public/assets/textures/Earth/01_earthbump1k.jpg";
+import earthSpec from "../../public/assets/textures/Earth/02_earthspec1k.jpg";
+import earthLights from "../../public/assets/textures/Earth/03_earthlights1k.jpg";
+import earthCloud from "../../public/assets/textures/Earth/04_earthcloudmap.jpg";
+import earthCloudTransparent from "../../public/assets/textures/Earth/05_earthcloudmaptrans.jpg";
+
 export default function TheEarth() {
   const sceneRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -13,7 +20,7 @@ export default function TheEarth() {
 
       //02_creating camera
       const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 100);
-      camera.position.z = 4;
+      camera.position.z = 3;
 
       //03_creating WebGL renderer for rendering
       const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -21,17 +28,28 @@ export default function TheEarth() {
       sceneRef.current.appendChild(renderer.domElement);
 
       //04_creating the object and adding it to the scene
-      const icoGeo = new THREE.IcosahedronGeometry(1,12);
-      const icoMat = new THREE.MeshStandardMaterial({ color: 0xffff00 });
-      const icoMesh = new THREE.Mesh(icoGeo, icoMat);
-      scene.add(icoMesh);
+      const earthGroup = new THREE.Group();
+      earthGroup.rotation.z = -0.4;
+
+      const icoGeo = new THREE.IcosahedronGeometry(1, 12);
+      const loader = new THREE.TextureLoader();
+      const icoMat = new THREE.MeshStandardMaterial({
+        map: loader.load(earthDiffuse.src),
+      });
+      const earthMesh = new THREE.Mesh(icoGeo, icoMat);
+      earthGroup.add(earthMesh);
+      scene.add(earthGroup);
 
       //05_rendering (for rendering a frame)
       // renderer.render(scene, camera);
 
       //06_Adding light
-      const light = new THREE.HemisphereLight(0xffffff,0x000000);
-      scene.add(light);
+      const dirLight = new THREE.DirectionalLight(0xffffff);
+      const dirLightHelper = new THREE.DirectionalLightHelper(dirLight);
+      dirLight.position.set(2, 2, 2);
+
+      scene.add(dirLight);
+      scene.add(dirLightHelper);
 
       //07_Orbit control
       const controls = new OrbitControls(camera, renderer.domElement);
@@ -41,9 +59,8 @@ export default function TheEarth() {
       //Render the animation
       const animate = () => {
         requestAnimationFrame(animate);
-        cubeMesh.rotation.x += 0.001;
-        cubeMesh.rotation.y += 0.001;
-        cubeMesh.rotation.z += 0.001;
+
+        earthMesh.rotation.y += 0.001;
 
         renderer.render(scene, camera);
         controls.update();
