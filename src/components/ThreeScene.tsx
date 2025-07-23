@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/Addons.js";
 
 export default function ThreeScene() {
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -8,7 +9,6 @@ export default function ThreeScene() {
     if (sceneRef.current) {
       // Create the scene
       const scene = new THREE.Scene();
-
       // Get container dimensions
       const width = sceneRef.current.clientWidth;
       const height = sceneRef.current.clientHeight;
@@ -26,6 +26,11 @@ export default function ThreeScene() {
       const renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(width, height);
       sceneRef.current.appendChild(renderer.domElement);
+
+      //Orbit controls
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.03;
 
       // sphere
       const icoGeo = new THREE.IcosahedronGeometry(1.5, 3);
@@ -70,6 +75,7 @@ export default function ThreeScene() {
         IcoPointsMesh.rotation.y = Math.sin(IcoSphere.rotation.y * 2.3);
         IcoPointsMesh.rotation.x = -Math.sin(IcoSphere.rotation.y * 1.3);
         renderer.render(scene, camera);
+        controls.update();
       };
       animate();
 
