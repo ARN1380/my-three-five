@@ -36,12 +36,15 @@ export default function ThreeScene() {
       const IcoSphere = new THREE.Mesh(icoGeo, material);
       scene.add(IcoSphere);
       //light
-      const hemiLight = new THREE.HemisphereLight(0xffffff, 0x000000);
+      const hemiLight = new THREE.HemisphereLight(0x0acf21, 0xae27e3);
       scene.add(hemiLight);
       //wireframe sphere
       const IcoWireMat = new THREE.MeshBasicMaterial({
-        color: 0x888888,
+        color: 0xffffff,
         wireframe: true,
+        transparent: true,
+        opacity: 0.1,
+        alphaTest: 0.1, // Fixes transparency artifacts
       });
       const IcoWireMesh = new THREE.Mesh(icoGeo, IcoWireMat);
       IcoWireMesh.scale.setScalar(1.4);
@@ -57,7 +60,6 @@ export default function ThreeScene() {
       IcoPointsMesh.scale.setScalar(1.2);
       scene.add(IcoPointsMesh);
 
-
       // Animation loop
       const animate = () => {
         requestAnimationFrame(animate);
@@ -65,8 +67,8 @@ export default function ThreeScene() {
         IcoSphere.rotation.x += 0.001;
         IcoSphere.rotation.y += 0.004;
         // IcoWireMesh.rotation.y = Math.sin(IcoSphere.rotation.y) * 1.5;
-        IcoPointsMesh.rotation.y = Math.sin(IcoSphere.rotation.y*2.3);
-        IcoPointsMesh.rotation.x = -Math.sin(IcoSphere.rotation.y*1.3);
+        IcoPointsMesh.rotation.y = Math.sin(IcoSphere.rotation.y * 2.3);
+        IcoPointsMesh.rotation.x = -Math.sin(IcoSphere.rotation.y * 1.3);
         renderer.render(scene, camera);
       };
       animate();
