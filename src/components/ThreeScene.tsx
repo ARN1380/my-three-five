@@ -65,15 +65,26 @@ export default function ThreeScene() {
       IcoPointsMesh.scale.setScalar(1.2);
       scene.add(IcoPointsMesh);
 
+      let counter = 0;
       // Animation loop
       const animate = () => {
-        requestAnimationFrame(animate);
-        // console.log(requestAnimationFrame(animate));
+        requestAnimationFrame(animate); // to run the animate function every frame i think ...
+
+        counter += 0.01;
+        // animate the rotation of objects
         IcoSphere.rotation.x += 0.001;
         IcoSphere.rotation.y += 0.002;
-        // IcoWireMesh.rotation.y = Math.sin(IcoSphere.rotation.y) * 1.5;
         IcoPointsMesh.rotation.y = Math.sin(IcoSphere.rotation.y * 2.3);
         IcoPointsMesh.rotation.x = -Math.sin(IcoSphere.rotation.y * 1.3);
+        // animate light colors
+        const R = (Math.sin(counter + 10) + 1) / 4;
+        const G = (Math.sin(counter) + 1) / 4 ;
+        const B = (Math.sin(counter) + 1) / 4 + 0.5;
+
+        hemiLight.color.setRGB(R, G, B);
+        hemiLight.groundColor.setRGB(R - 0.5, G - 0.5, B - 0.5);
+
+        //render the animation and controls
         renderer.render(scene, camera);
         controls.update();
       };
