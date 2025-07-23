@@ -27,33 +27,46 @@ export default function ThreeScene() {
       renderer.setSize(width, height);
       sceneRef.current.appendChild(renderer.domElement);
 
-      // Add a cube to the scene
-      const geometry = new THREE.IcosahedronGeometry(1.5, 3);
+      // sphere
+      const icoGeo = new THREE.IcosahedronGeometry(1.5, 3);
       const material = new THREE.MeshStandardMaterial({
         color: 0xffffff,
         flatShading: true,
       });
-      const IcoSphere = new THREE.Mesh(geometry, material);
+      const IcoSphere = new THREE.Mesh(icoGeo, material);
       scene.add(IcoSphere);
-
+      //light
       const hemiLight = new THREE.HemisphereLight(0xffffff, 0x000000);
       scene.add(hemiLight);
-
+      //wireframe sphere
       const IcoWireMat = new THREE.MeshBasicMaterial({
-        color: 0xffffff,
+        color: 0x888888,
         wireframe: true,
       });
-      const IcoWireMesh = new THREE.Mesh(geometry, IcoWireMat);
-      IcoWireMesh.scale.setScalar(1.5);
+      const IcoWireMesh = new THREE.Mesh(icoGeo, IcoWireMat);
+      IcoWireMesh.scale.setScalar(1.4);
       IcoSphere.add(IcoWireMesh);
+
+      //vertecies sphere
+      const IcoPointsMat = new THREE.PointsMaterial({
+        color: 0xffffff,
+        sizeAttenuation: true,
+        size: 0.004,
+      });
+      const IcoPointsMesh = new THREE.Points(icoGeo, IcoPointsMat);
+      IcoPointsMesh.scale.setScalar(1.2);
+      scene.add(IcoPointsMesh);
+
+
       // Animation loop
       const animate = () => {
         requestAnimationFrame(animate);
         // console.log(requestAnimationFrame(animate));
-        IcoSphere.rotation.x += 0.0;
+        IcoSphere.rotation.x += 0.001;
         IcoSphere.rotation.y += 0.004;
-        IcoWireMesh.rotation.y = Math.sin(-IcoSphere.rotation.y * 2 );
-
+        // IcoWireMesh.rotation.y = Math.sin(IcoSphere.rotation.y) * 1.5;
+        IcoPointsMesh.rotation.y = Math.sin(IcoSphere.rotation.y*2.3);
+        IcoPointsMesh.rotation.x = -Math.sin(IcoSphere.rotation.y*1.3);
         renderer.render(scene, camera);
       };
       animate();
