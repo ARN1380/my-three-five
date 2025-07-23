@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
 
-export default function ThreeScene() {
+export default function TheIco() {
   const sceneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

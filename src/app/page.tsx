@@ -1,15 +1,15 @@
-'use client'
+"use client";
 
 import dynamic from "next/dynamic";
 
-const ThreeScene = dynamic(() => import("@/components/ThreeScene"), {
+const TheIco = dynamic(() => import("@/components/TheIco"), {
   ssr: false,
 });
 
 export default function Home() {
   return (
     <div>
-      <ThreeScene />
+      <TheIco />
     </div>
   );
 }
