@@ -65,7 +65,7 @@ export default function ThreeScene() {
         requestAnimationFrame(animate);
         // console.log(requestAnimationFrame(animate));
         IcoSphere.rotation.x += 0.001;
-        IcoSphere.rotation.y += 0.004;
+        IcoSphere.rotation.y += 0.002;
         // IcoWireMesh.rotation.y = Math.sin(IcoSphere.rotation.y) * 1.5;
         IcoPointsMesh.rotation.y = Math.sin(IcoSphere.rotation.y * 2.3);
         IcoPointsMesh.rotation.x = -Math.sin(IcoSphere.rotation.y * 1.3);
