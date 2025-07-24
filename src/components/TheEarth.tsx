@@ -40,13 +40,21 @@ export default function TheEarth() {
       scene.add(earthGroup);
 
       const earthLightsMat = new THREE.MeshBasicMaterial({
+        color: 0x809000,
         map: loader.load(earthLights.src),
         blending: THREE.AdditiveBlending,
         transparent: true,
-        opacity: 0.25
+        opacity: 0.2,
       });
       const earthLightsMesh = new THREE.Mesh(icoGeo, earthLightsMat);
       earthGroup.add(earthLightsMesh);
+
+      // const cloudsMat = new THREE.MeshStandardMaterial({
+      //   map: loader.load(earth.src),
+      //   blending: THREE.AdditiveBlending,        
+      // });
+      // const cloudsMesh = new THREE.Mesh(icoGeo, cloudsMat);
+      // earthGroup.add(cloudsMesh);
 
       //05_rendering (for rendering a frame)
       // renderer.render(scene, camera);
@@ -57,7 +65,7 @@ export default function TheEarth() {
       dirLight.position.set(2, 2, 2);
 
       scene.add(dirLight);
-      scene.add(dirLightHelper);
+      scene.add(dirLightHelper);  
 
       //07_Orbit control
       const controls = new OrbitControls(camera, renderer.domElement);
