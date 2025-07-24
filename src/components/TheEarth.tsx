@@ -29,7 +29,6 @@ export default function TheEarth() {
 
       //04_creating the object and adding it to the scene
       const earthGroup = new THREE.Group();
-      earthGroup.rotation.z = -0.4;
 
       const icoGeo = new THREE.IcosahedronGeometry(1, 12);
       const loader = new THREE.TextureLoader();
@@ -40,6 +39,23 @@ export default function TheEarth() {
       earthGroup.add(earthMesh);
       scene.add(earthGroup);
 
+      const earthLightsMat = new THREE.MeshBasicMaterial({
+        color: 0x809000,
+        map: loader.load(earthLights.src),
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        opacity: 0.2,
+      });
+      const earthLightsMesh = new THREE.Mesh(icoGeo, earthLightsMat);
+      earthGroup.add(earthLightsMesh);
+
+      // const cloudsMat = new THREE.MeshStandardMaterial({
+      //   map: loader.load(earth.src),
+      //   blending: THREE.AdditiveBlending,        
+      // });
+      // const cloudsMesh = new THREE.Mesh(icoGeo, cloudsMat);
+      // earthGroup.add(cloudsMesh);
+
       //05_rendering (for rendering a frame)
       // renderer.render(scene, camera);
 
@@ -49,7 +65,7 @@ export default function TheEarth() {
       dirLight.position.set(2, 2, 2);
 
       scene.add(dirLight);
-      scene.add(dirLightHelper);
+      scene.add(dirLightHelper);  
 
       //07_Orbit control
       const controls = new OrbitControls(camera, renderer.domElement);
@@ -60,7 +76,8 @@ export default function TheEarth() {
       const animate = () => {
         requestAnimationFrame(animate);
 
-        earthMesh.rotation.y += 0.001;
+        earthGroup.rotation.y += 0.001;
+        earthGroup.rotation.x += 0.0004;
 
         renderer.render(scene, camera);
         controls.update();
