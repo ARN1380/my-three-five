@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { useEffect, useRef } from "react";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
+import { getFresnelMat } from "./getFresnelMat";
 
 import earthDiffuse from "../../public/assets/textures/Earth/00_earthmap1k.jpg";
 import earthBump from "../../public/assets/textures/Earth/01_earthbump1k.jpg";
@@ -45,22 +46,29 @@ export default function TheEarth() {
 
       //06_Adding light
       const dirLight = new THREE.DirectionalLight(0xffffff);
-      const dirLightHelper = new THREE.DirectionalLightHelper(dirLight);
+      // const dirLightHelper = new THREE.DirectionalLightHelper(dirLight);
       dirLight.position.set(2, 2, 2);
 
       scene.add(dirLight);
-      scene.add(dirLightHelper);
+      // scene.add(dirLightHelper);
 
       //07_Orbit control
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.03;
 
+      const frenseMat = getFresnelMat();
+      const glowMesh = new THREE.Mesh(icoGeo, frenseMat);
+      glowMesh.scale.setScalar(1.01);
+      earthGroup.add(glowMesh);
+
       //Render the animation
       const animate = () => {
         requestAnimationFrame(animate);
 
         earthMesh.rotation.y += 0.001;
+        earthGroup.rotation.y += 0.001;
+        glowMesh.rotation.y += 0.001;
 
         renderer.render(scene, camera);
         controls.update();

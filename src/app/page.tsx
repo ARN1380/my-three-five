@@ -12,7 +12,7 @@ const TheEarth = dynamic(() => import("@/components/TheEarth"), {
 export default function Home() {
   return (
     <div>
-      <TheIco />
+      {/* <TheIco /> */}
       <TheEarth />
     </div>
   );
