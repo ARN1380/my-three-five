@@ -9,11 +9,16 @@ const TheEarth = dynamic(() => import("@/components/TheEarth"), {
   ssr: false,
 });
 
+const TheWormHole = dynamic(() => import("@/components/TheWormHole"), {
+  ssr: false,
+});
+
 export default function Home() {
   return (
     <div>
       {/* <TheIco /> */}
-      <TheEarth />
+      {/* <TheEarth /> */}
+      <TheWormHole />
     </div>
   );
 }
